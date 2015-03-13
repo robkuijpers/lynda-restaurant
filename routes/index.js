@@ -3,7 +3,15 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+    if(req.user) {
+        return res.redirect('/orders');
+    }
+    var vm = {
+        title: 'Login',
+        error: req.flash('error')
+    }
+    req.flash('error','Invalid credentials');
+    res.render('index', vm);
 });
 
 module.exports = router;
